@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FetchData.h"
 #import "Item.h"
-
+#import "ItemDetailViewController.h"
 
 @interface ProductSearchViewController : UIViewController <NSURLConnectionDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -18,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *resultsCountLabel;
 
 @property (weak, nonatomic) IBOutlet UITableView *itemTableView;
+
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *itemsLoadingIndicator;
 
 @property (nonatomic, strong) NSString *searchTerm;
 
@@ -35,7 +37,15 @@
 
 @property (nonatomic, strong) NSMutableData *responseData;
 
+@property bool loadingData;
+
 - (IBAction)searchButtonTapped:(id)sender;
+
+- (void) dismissKeyboard;
+
+- (void) loadMoreItems;
+
+- (void) updateCountLabel:(NSNumber *)num;
 
 - (void) updateResultsTable:(NSMutableArray *)itemArray;
 

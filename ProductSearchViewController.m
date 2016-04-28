@@ -17,7 +17,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //
-    self.navigationItem.title = @"AF Wendling Product Search";
+    //
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
+    //
     //
     self.searchTerm = @".+";
     self.startIndex = @0;
@@ -30,9 +36,17 @@
     [FetchData fetchProductData:sqlArray viewDelegate:self];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    self.navigationController.navigationBar.topItem.title = @"AF Wendling Product Catalog";
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)dismissKeyboard {
+    [self.searchTermField resignFirstResponder];
 }
 
 - (void)searchButtonTapped:(id)sender {
@@ -44,11 +58,26 @@
     if ([self.searchTerm length] == 0) {
         self.searchTerm = @".+";
     }
+    self.itemsInView = @[];
     //
     NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:@[] categoryArray:@[]];
     [FetchData fetchProductData:sqlArray viewDelegate:self];
     //
     [self.searchTermField resignFirstResponder];
+}
+
+- (void) loadMoreItems {
+    //
+    // returnig early if there are no more items to display
+    int start = [self.startIndex intValue]+20;
+    if (start >= [self.resultsCount intValue]) {
+        return;
+    }
+    self.startIndex = [NSNumber numberWithInt:start];
+    self.loadingData = YES; //setting this here as well because these scroll events can trigger fast
+    //
+    NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:self.brands categoryArray:self.categories];
+    [FetchData fetchProductData:sqlArray viewDelegate:self];
 }
 
 - (void)updateCountLabel:(NSNumber *)num {
@@ -62,20 +91,27 @@
 
 - (void)updateResultsTable:(NSMutableArray *)itemArray {
     //
-    self.itemsInView = itemArray;
+    self.itemsInView = [self.itemsInView arrayByAddingObjectsFromArray:itemArray];
     [self.itemTableView reloadData];
+    self.loadingData = NO;
+    [self.itemsLoadingIndicator stopAnimating];
     //
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    //
     // Get the new view controller using [segue destinationViewController].
+    ItemDetailViewController *itemDetail = [segue destinationViewController];
+    //
     // Pass the selected object to the new view controller.
+    NSIndexPath *path = [self.itemTableView indexPathForCell:sender];
+    Item *selectedItem = self.itemsInView[path.row];
+    itemDetail.selectedItem = selectedItem;
 }
-*/
 
 //
 // table view methods
@@ -88,25 +124,26 @@
     //
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
     //
-    int num = [self.startIndex intValue] + (int)indexPath.row + 1;
     Item *item = self.itemsInView[indexPath.row];
-    NSString *mainLabel = [NSString stringWithFormat:@"%d. Item: %@",num,item.itemNumber];
+    NSString *mainLabel = [NSString stringWithFormat:@"%d. Item: %@",item.rowIndex+1,item.itemNumber];
     NSString *detailLabel = item.desc;
     //
     NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithURL:item.imageUrl completionHandler:^(NSData *imageData, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
         if (httpResponse.statusCode == 200) {
             item.image = [UIImage imageWithData:imageData];
+            UIImage *tableImage = [UIImage imageWithData:imageData];
+            //
             CGRect rect = CGRectMake(0,0,35,35);
             UIGraphicsBeginImageContext( rect.size );
-            [item.image drawInRect:rect];
-            item.image = UIGraphicsGetImageFromCurrentImageContext();
+            [tableImage drawInRect:rect];
+            tableImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
             if (tableView) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     UITableViewCell *updateCell = (id)[tableView cellForRowAtIndexPath:indexPath];
                     if (updateCell)
-                        [updateCell.imageView setImage:item.image];;
+                        [updateCell.imageView setImage:tableImage];
                 });
             }
         }
@@ -114,11 +151,31 @@
     [task resume];
     //
     //
-    [cell.imageView setImage:item.image];
+    [cell.imageView setImage:item.tempImage];
     cell.textLabel.text = mainLabel;
     cell.detailTextLabel.text = detailLabel;
     //
     return cell;
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
+    //
+    if (self.loadingData == YES) {
+        return;
+    }
+    //
+    CGPoint offset = aScrollView.contentOffset;
+    CGRect bounds = aScrollView.bounds;
+    CGSize size = aScrollView.contentSize;
+    UIEdgeInsets inset = aScrollView.contentInset;
+    float y = offset.y + bounds.size.height - inset.bottom;
+    float h = size.height;
+    //
+    float reload_distance = -20;
+    if(y > h + reload_distance) {
+        [self loadMoreItems];
+    }
 }
 
 //
@@ -158,9 +215,9 @@
     NSArray *categories = returnDict[keyArray[3]];
     //
     NSMutableArray *itemArray = [NSMutableArray array];
-    int i = 0;
+    int i = [self.startIndex intValue];
     for (NSDictionary *itemDict in dataArray) {
-        [itemArray addObject:[[Item alloc] initWithDict:itemDict]];
+        [itemArray addObject:[[Item alloc] initWithDict:itemDict arrayIndex:i]];
         i = i + 1;
     }
     //
@@ -174,6 +231,8 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     // The request has failed for some reason!
     // Check the error var
+    self.loadingData = NO;
+    [self.itemsLoadingIndicator stopAnimating];
     NSLog(@" didFailWithError: %@",error);
 }
 

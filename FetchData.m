@@ -85,8 +85,10 @@ static NSString *catKey = @"productCategories";
 }
 
 + (void)fetchProductData:(NSArray*)sqlArray
-            viewDelegate:(UIViewController *)view {
+            viewDelegate:(ProductSearchViewController *)view {
     //
+    view.loadingData = YES;
+    [view.itemsLoadingIndicator startAnimating];
     NSData *postData = [FetchData buildPostBody:sqlArray dataKeys:[FetchData getKeyArray]];
     [FetchData sendPostRequest:postData viewDelegate:view];
 }
@@ -104,7 +106,7 @@ static NSString *catKey = @"productCategories";
     return postData;
 }
 
-+ (void)sendPostRequest:(NSData *)postData viewDelegate:(UIViewController *)view {
++ (void)sendPostRequest:(NSData *)postData viewDelegate:(ProductSearchViewController *)view {
     //
     // creating request and setting params
     NSString *postLength = [NSString stringWithFormat:@"%d",(int)[postData length]];

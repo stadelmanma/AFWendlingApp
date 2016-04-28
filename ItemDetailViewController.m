@@ -17,6 +17,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = [NSString stringWithFormat:@"Item: %@",self.selectedItem.itemNumber];
+    [self.displayImage setImage:self.selectedItem.image];
+    self.displayImage.contentMode = UIViewContentModeScaleAspectFit;
+    self.detailsTextView.text = [self.selectedItem itemDetail];
+    
 }
 
 - (void)didReceiveMemoryWarning {
