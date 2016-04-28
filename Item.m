@@ -14,7 +14,7 @@
 // Stores item information
 //
 
--(instancetype)initWithDict:(NSDictionary *)itemDict {
+-(instancetype)initWithDict:(NSDictionary *)itemDict arrayIndex:(int)index{
     //
     [self.itemData setValuesForKeysWithDictionary:itemDict];
     //
@@ -28,6 +28,7 @@
     for (NSArray *map in prop_map) {
         [self setValue:itemDict[map[1]] forKey:map[0]];
     }
+    self.rowIndex = index;
     //
     //
     NSString *imageURL = [NSString stringWithFormat:@"http://www.afwendling.com/prodimages/%@.jpg",self.itemNumber];

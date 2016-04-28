@@ -19,12 +19,21 @@
     //
     self.navigationItem.title = @"AF Wendling Product Search";
     //
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
+    //
+    //
     self.searchTerm = @".+";
     self.startIndex = @0;
     self.maxReturn = @20;
     self.brands = @[];
     self.categories = @[];
     self.itemsInView = @[];
+    self.loadingData = YES;
+    [self.itemsLoadingIndicator startAnimating];
     //
     NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:self.brands categoryArray:self.categories];
     [FetchData fetchProductData:sqlArray viewDelegate:self];
@@ -33,6 +42,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)dismissKeyboard {
+    [self.searchTermField resignFirstResponder];
 }
 
 - (void)searchButtonTapped:(id)sender {
@@ -44,11 +57,30 @@
     if ([self.searchTerm length] == 0) {
         self.searchTerm = @".+";
     }
+    self.itemsInView = @[];
+    self.loadingData = YES;
+    [self.itemsLoadingIndicator startAnimating];
     //
     NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:@[] categoryArray:@[]];
     [FetchData fetchProductData:sqlArray viewDelegate:self];
     //
     [self.searchTermField resignFirstResponder];
+}
+
+- (void) loadMoreItems {
+    //
+    // returnig early if there are no more items to display
+    int start = [self.startIndex intValue]+20;
+    if (start >= [self.resultsCount intValue]) {
+        return;
+    }
+    NSLog(@"%d",start);
+    self.startIndex = [NSNumber numberWithInt:start];
+    self.loadingData = YES;
+    [self.itemsLoadingIndicator startAnimating];
+    //
+    NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:self.brands categoryArray:self.categories];
+    [FetchData fetchProductData:sqlArray viewDelegate:self];
 }
 
 - (void)updateCountLabel:(NSNumber *)num {
@@ -62,8 +94,10 @@
 
 - (void)updateResultsTable:(NSMutableArray *)itemArray {
     //
-    self.itemsInView = itemArray;
+    self.itemsInView = [self.itemsInView arrayByAddingObjectsFromArray:itemArray];
     [self.itemTableView reloadData];
+    self.loadingData = NO;
+    [self.itemsLoadingIndicator stopAnimating];
     //
 }
 
@@ -88,9 +122,8 @@
     //
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
     //
-    int num = [self.startIndex intValue] + (int)indexPath.row + 1;
     Item *item = self.itemsInView[indexPath.row];
-    NSString *mainLabel = [NSString stringWithFormat:@"%d. Item: %@",num,item.itemNumber];
+    NSString *mainLabel = [NSString stringWithFormat:@"%d. Item: %@",item.rowIndex+1,item.itemNumber];
     NSString *detailLabel = item.desc;
     //
     NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithURL:item.imageUrl completionHandler:^(NSData *imageData, NSURLResponse *response, NSError *error) {
@@ -119,6 +152,26 @@
     cell.detailTextLabel.text = detailLabel;
     //
     return cell;
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
+    //
+    if (self.loadingData == YES) {
+        return;
+    }
+    //
+    CGPoint offset = aScrollView.contentOffset;
+    CGRect bounds = aScrollView.bounds;
+    CGSize size = aScrollView.contentSize;
+    UIEdgeInsets inset = aScrollView.contentInset;
+    float y = offset.y + bounds.size.height - inset.bottom;
+    float h = size.height;
+    //
+    float reload_distance = -20;
+    if(y > h + reload_distance) {
+        [self loadMoreItems];
+    }
 }
 
 //
@@ -158,9 +211,9 @@
     NSArray *categories = returnDict[keyArray[3]];
     //
     NSMutableArray *itemArray = [NSMutableArray array];
-    int i = 0;
+    int i = [self.startIndex intValue];
     for (NSDictionary *itemDict in dataArray) {
-        [itemArray addObject:[[Item alloc] initWithDict:itemDict]];
+        [itemArray addObject:[[Item alloc] initWithDict:itemDict arrayIndex:i]];
         i = i + 1;
     }
     //
@@ -174,6 +227,8 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     // The request has failed for some reason!
     // Check the error var
+    self.loadingData = NO;
+    [self.itemsLoadingIndicator stopAnimating];
     NSLog(@" didFailWithError: %@",error);
 }
 

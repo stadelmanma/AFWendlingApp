@@ -18,8 +18,9 @@
 @property (nonatomic, strong) NSDictionary *itemData;
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) NSURL *imageUrl;
+@property  int rowIndex;
 
--(instancetype) initWithDict:(NSDictionary *) itemDict;
+-(instancetype) initWithDict:(NSDictionary *) itemDict arrayIndex:(int)index;
 
 -(NSString *) description;
 
