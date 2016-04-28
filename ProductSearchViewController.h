@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FetchData.h"
 #import "Item.h"
-
+#import "ItemDetailViewController.h"
 
 @interface ProductSearchViewController : UIViewController <NSURLConnectionDelegate, UITableViewDataSource, UITableViewDelegate>
 

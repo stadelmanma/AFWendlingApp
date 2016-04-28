@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Item.h"
 
 @interface ItemDetailViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet UIImageView *displayImage;
+
+
+@property (weak, nonatomic) IBOutlet UITextView *detailsTextView;
+
+@property (nonatomic, strong) Item *selectedItem;
 
 @end

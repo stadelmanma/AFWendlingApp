@@ -17,7 +17,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //
-    self.navigationItem.title = @"AF Wendling Product Search";
     //
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                    initWithTarget:self
@@ -32,11 +31,13 @@
     self.brands = @[];
     self.categories = @[];
     self.itemsInView = @[];
-    self.loadingData = YES;
-    [self.itemsLoadingIndicator startAnimating];
     //
     NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:self.brands categoryArray:self.categories];
     [FetchData fetchProductData:sqlArray viewDelegate:self];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    self.navigationController.navigationBar.topItem.title = @"AF Wendling Product Catalog";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,8 +59,6 @@
         self.searchTerm = @".+";
     }
     self.itemsInView = @[];
-    self.loadingData = YES;
-    [self.itemsLoadingIndicator startAnimating];
     //
     NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:@[] categoryArray:@[]];
     [FetchData fetchProductData:sqlArray viewDelegate:self];
@@ -74,10 +73,8 @@
     if (start >= [self.resultsCount intValue]) {
         return;
     }
-    NSLog(@"%d",start);
     self.startIndex = [NSNumber numberWithInt:start];
-    self.loadingData = YES;
-    [self.itemsLoadingIndicator startAnimating];
+    self.loadingData = YES; //setting this here as well because these scroll events can trigger fast
     //
     NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:self.brands categoryArray:self.categories];
     [FetchData fetchProductData:sqlArray viewDelegate:self];
@@ -101,15 +98,20 @@
     //
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    //
     // Get the new view controller using [segue destinationViewController].
+    ItemDetailViewController *itemDetail = [segue destinationViewController];
+    //
     // Pass the selected object to the new view controller.
+    NSIndexPath *path = [self.itemTableView indexPathForCell:sender];
+    Item *selectedItem = self.itemsInView[path.row];
+    itemDetail.selectedItem = selectedItem;
 }
-*/
 
 //
 // table view methods
@@ -130,16 +132,18 @@
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
         if (httpResponse.statusCode == 200) {
             item.image = [UIImage imageWithData:imageData];
+            UIImage *tableImage = [UIImage imageWithData:imageData];
+            //
             CGRect rect = CGRectMake(0,0,35,35);
             UIGraphicsBeginImageContext( rect.size );
-            [item.image drawInRect:rect];
-            item.image = UIGraphicsGetImageFromCurrentImageContext();
+            [tableImage drawInRect:rect];
+            tableImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
             if (tableView) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     UITableViewCell *updateCell = (id)[tableView cellForRowAtIndexPath:indexPath];
                     if (updateCell)
-                        [updateCell.imageView setImage:item.image];;
+                        [updateCell.imageView setImage:tableImage];
                 });
             }
         }
@@ -147,7 +151,7 @@
     [task resume];
     //
     //
-    [cell.imageView setImage:item.image];
+    [cell.imageView setImage:item.tempImage];
     cell.textLabel.text = mainLabel;
     cell.detailTextLabel.text = detailLabel;
     //
