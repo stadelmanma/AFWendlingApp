@@ -37,6 +37,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:NO];
     self.navigationController.navigationBar.topItem.title = @"AF Wendling Product Catalog";
 }
 

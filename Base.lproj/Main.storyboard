@@ -363,14 +363,95 @@
                     </tabBar>
                     <connections>
                         <segue destination="XFa-gM-0ne" kind="relationship" relationship="viewControllers" id="jys-tO-eK4"/>
+                        <segue destination="vqO-32-eiP" kind="relationship" relationship="viewControllers" id="1sX-1z-d1b"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="743-2A-WUV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2517" y="46"/>
+            <point key="canvasLocation" x="2520" y="46"/>
+        </scene>
+        <!--GoToWendlingWebsite-->
+        <scene sceneID="2GG-M3-juo">
+            <objects>
+                <viewController title="GoToWendlingWebsite" id="vqO-32-eiP" customClass="GoToWebsiteViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bMk-kr-2Kc"/>
+                        <viewControllerLayoutGuide type="bottom" id="swq-eF-lV0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3VP-3M-PG1">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1hd-VJ-Nyy">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="delegate" destination="vqO-32-eiP" id="ZiC-Wt-iG7"/>
+                                </connections>
+                            </webView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="xHE-n9-0dH">
+                                <rect key="frame" x="-10" y="-10" width="20" height="20"/>
+                                <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="xHE-n9-0dH" secondAttribute="centerY" id="0bu-4s-uAO"/>
+                            <constraint firstItem="swq-eF-lV0" firstAttribute="top" secondItem="xHE-n9-0dH" secondAttribute="bottom" constant="233" id="5Mi-ND-4yp"/>
+                            <constraint firstItem="1hd-VJ-Nyy" firstAttribute="centerX" secondItem="xHE-n9-0dH" secondAttribute="centerX" id="RBm-0d-cmP"/>
+                            <constraint firstItem="1hd-VJ-Nyy" firstAttribute="leading" secondItem="3VP-3M-PG1" secondAttribute="leading" id="UFX-bj-9h1"/>
+                            <constraint firstItem="xHE-n9-0dH" firstAttribute="centerX" secondItem="3VP-3M-PG1" secondAttribute="centerX" id="df3-rK-G3t"/>
+                            <constraint firstItem="1hd-VJ-Nyy" firstAttribute="top" secondItem="bMk-kr-2Kc" secondAttribute="bottom" id="dnO-Si-3ZP"/>
+                            <constraint firstAttribute="centerX" secondItem="xHE-n9-0dH" secondAttribute="centerX" id="eOz-Ya-aJP"/>
+                            <constraint firstAttribute="bottom" secondItem="1hd-VJ-Nyy" secondAttribute="bottom" id="ghf-Gn-7VO"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="1hd-VJ-Nyy"/>
+                                <exclude reference="xHE-n9-0dH"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="5Mi-ND-4yp"/>
+                                <exclude reference="0bu-4s-uAO"/>
+                                <exclude reference="df3-rK-G3t"/>
+                                <exclude reference="eOz-Ya-aJP"/>
+                                <exclude reference="RBm-0d-cmP"/>
+                                <exclude reference="UFX-bj-9h1"/>
+                                <exclude reference="dnO-Si-3ZP"/>
+                                <exclude reference="ghf-Gn-7VO"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="1hd-VJ-Nyy"/>
+                                <include reference="xHE-n9-0dH"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="5Mi-ND-4yp"/>
+                                <include reference="0bu-4s-uAO"/>
+                                <include reference="df3-rK-G3t"/>
+                                <include reference="eOz-Ya-aJP"/>
+                                <include reference="RBm-0d-cmP"/>
+                                <include reference="UFX-bj-9h1"/>
+                                <include reference="dnO-Si-3ZP"/>
+                                <include reference="ghf-Gn-7VO"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Go To Website" image="www_image" id="OhM-wI-vIP"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="webView" destination="1hd-VJ-Nyy" id="MJS-gO-sRW"/>
+                        <outlet property="webViewLoadingIndicator" destination="xHE-n9-0dH" id="TaE-xa-yrY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M91-Tv-n0z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2928" y="758"/>
         </scene>
     </scenes>
     <resources>
         <image name="search_image" width="30" height="30"/>
+        <image name="www_image" width="30" height="30"/>
     </resources>
 </document>
