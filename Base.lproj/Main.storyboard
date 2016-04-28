@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1712" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="han-Jh-V9s">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -66,13 +67,13 @@
                                 <exclude reference="XeY-Ex-owM"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="sh9-ad-4ay"/>
                                 <exclude reference="9NT-ug-PbN"/>
                                 <exclude reference="IxS-2g-L7c"/>
                                 <exclude reference="7XG-MZ-cuS"/>
                                 <exclude reference="NEv-oW-PrA"/>
                                 <exclude reference="Pyp-0V-PXn"/>
                                 <exclude reference="cDL-vB-2ki"/>
-                                <exclude reference="sh9-ad-4ay"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -81,13 +82,13 @@
                                 <include reference="XeY-Ex-owM"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="sh9-ad-4ay"/>
                                 <include reference="9NT-ug-PbN"/>
                                 <include reference="IxS-2g-L7c"/>
                                 <include reference="7XG-MZ-cuS"/>
                                 <include reference="NEv-oW-PrA"/>
                                 <include reference="Pyp-0V-PXn"/>
                                 <include reference="cDL-vB-2ki"/>
-                                <include reference="sh9-ad-4ay"/>
                             </mask>
                         </variation>
                     </view>
@@ -258,6 +259,9 @@
                                 <exclude reference="vvn-jC-tX2"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="CTv-LL-nl9"/>
+                                <exclude reference="LbG-pw-sZ3"/>
+                                <exclude reference="aef-5i-s10"/>
                                 <exclude reference="Md2-Fc-ZmC"/>
                                 <exclude reference="ALV-2q-1Q9"/>
                                 <exclude reference="izi-la-bbO"/>
@@ -266,9 +270,6 @@
                                 <exclude reference="Kb0-wW-0lH"/>
                                 <exclude reference="Pfc-vZ-wfs"/>
                                 <exclude reference="fu2-wZ-Bep"/>
-                                <exclude reference="CTv-LL-nl9"/>
-                                <exclude reference="LbG-pw-sZ3"/>
-                                <exclude reference="aef-5i-s10"/>
                                 <exclude reference="7gm-Xf-W1H"/>
                                 <exclude reference="SCj-HI-juW"/>
                                 <exclude reference="iyJ-rY-b1v"/>
@@ -282,6 +283,9 @@
                                 <include reference="vvn-jC-tX2"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="CTv-LL-nl9"/>
+                                <include reference="LbG-pw-sZ3"/>
+                                <include reference="aef-5i-s10"/>
                                 <exclude reference="CWZ-Lj-s2l"/>
                                 <include reference="Md2-Fc-ZmC"/>
                                 <exclude reference="ZpU-zj-djK"/>
@@ -298,9 +302,6 @@
                                 <include reference="fu2-wZ-Bep"/>
                                 <exclude reference="s7t-vX-BB4"/>
                                 <exclude reference="yTr-Fu-Aeb"/>
-                                <include reference="CTv-LL-nl9"/>
-                                <include reference="LbG-pw-sZ3"/>
-                                <include reference="aef-5i-s10"/>
                                 <include reference="7gm-Xf-W1H"/>
                                 <include reference="SCj-HI-juW"/>
                                 <exclude reference="cvd-6K-7Fe"/>
