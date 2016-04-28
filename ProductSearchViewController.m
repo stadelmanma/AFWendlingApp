@@ -114,6 +114,15 @@
 }
 
 //
+// text field methods
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self searchButtonTapped:nil];
+    return YES;
+}
+
+
+//
 // table view methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     //

@@ -11,7 +11,7 @@
 #import "Item.h"
 #import "ItemDetailViewController.h"
 
-@interface ProductSearchViewController : UIViewController <NSURLConnectionDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface ProductSearchViewController : UIViewController <NSURLConnectionDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *searchTermField;
 
