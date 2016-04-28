@@ -24,10 +24,12 @@ static NSString *catKey = @"productCategories";
             categoryArray:(NSArray *)cats {
     //
     NSMutableDictionary *sqlParams = [NSMutableDictionary new];
+    NSLog(@"brands %@",brands);
+    NSLog(@"cats %@",cats);
     NSArray *whereArray = @[
                             @[@"all",@"REGEXP",searchTerm],
-                            @[@"brand", @"REGEXP", @".*"],
-                            @[@"category", @"REGEXP", @".*"],
+                            @[@"brand", @"REGEXP", [brands componentsJoinedByString:@"|"]],
+                            @[@"category", @"REGEXP", [cats componentsJoinedByString:@"|"]],
                             @[@"stock status",@"REGEXP",@"ACTIVE|NEW ITEM|SPECIAL CUT MEAT|SPECIAL"]
                             ];
     [sqlParams setValue:@"products" forKey:@"table"];
@@ -36,6 +38,7 @@ static NSString *catKey = @"productCategories";
     [sqlParams setValue:@[start,max] forKey:@"limit"];
     //
     NSString *dataSql = [FetchData buildSqlStatement:sqlParams];
+    NSLog(@"%@",dataSql);
     [sqlParams setValue:@"COUNT(*)" forKey:@"cols"];
     [sqlParams removeObjectForKey:@"limit"];
     NSString *countSql = [FetchData buildSqlStatement:sqlParams];

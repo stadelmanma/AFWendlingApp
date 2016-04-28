@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FilterItemsViewController.h"
+#import "ItemDetailViewController.h"
 #import "FetchData.h"
 #import "Item.h"
-#import "ItemDetailViewController.h"
 
-@interface ProductSearchViewController : UIViewController <NSURLConnectionDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+@interface ProductSearchViewController : UIViewController <NSURLConnectionDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIPickerViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *searchTermField;
 
@@ -27,6 +28,10 @@
 
 @property (nonatomic, strong) NSArray  *categories;
 
+@property (nonatomic, strong) NSArray *brandRefine;
+
+@property (nonatomic, strong) NSArray *categoryRefine;
+
 @property (nonatomic, strong) NSArray *itemsInView;
 
 @property (nonatomic, strong) NSNumber *resultsCount;
@@ -39,11 +44,17 @@
 
 @property bool loadingData;
 
+@property bool setRefinementArrays;
+
 - (IBAction)searchButtonTapped:(id)sender;
 
 - (void) dismissKeyboard;
 
 - (void) loadMoreItems;
+
+- (void) updateBrandList:(NSArray *)brands;
+
+- (void) updateCategoryList:(NSArray *)catagories;
 
 - (void) updateCountLabel:(NSNumber *)num;
 
