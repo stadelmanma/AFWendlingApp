@@ -1,41 +1,28 @@
 //
-//  GoToWebsiteViewController.m
+//  FilterItemsViewController.m
 //  AFWendlingApp
 //
 //  Created by Matthew Stadelman on 4/28/16.
 //  Copyright (c) 2016 Matthew Stadelman. All rights reserved.
 //
 
-#import "GoToWebsiteViewController.h"
+#import "FilterItemsViewController.h"
 
-@interface GoToWebsiteViewController ()
+@interface FilterItemsViewController ()
 
 @end
 
-@implementation GoToWebsiteViewController
+@implementation FilterItemsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     //
-    NSURL *url = [NSURL URLWithString: @"http://www.afwendling.com/"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [self.webViewLoadingIndicator startAnimating];
-    [self.webView loadRequest:request];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [self.navigationController setNavigationBarHidden:YES];
+    self.title = @"Filter Search Results";
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-//
-// webview delegate
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-    [self.webViewLoadingIndicator stopAnimating];
 }
 
 /*

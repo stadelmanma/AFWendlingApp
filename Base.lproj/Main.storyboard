@@ -101,6 +101,44 @@
             </objects>
             <point key="canvasLocation" x="4164" y="46"/>
         </scene>
+        <!--FilterItems-->
+        <scene sceneID="05A-z7-4S9">
+            <objects>
+                <viewController id="FoO-B7-f3k" userLabel="FilterItems" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="pYx-E0-Dm7"/>
+                        <viewControllerLayoutGuide type="bottom" id="M5N-Ze-ztM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="s9z-gZ-0QI">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9R-82-ysm">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="193" y="330" width="133" height="21"/>
+                                </variation>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="E9R-82-ysm"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="E9R-82-ysm"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QKc-gn-MUI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3888" y="-758"/>
+        </scene>
         <!--ProductSearchView-->
         <scene sceneID="D5X-TN-wv9">
             <objects>
@@ -222,6 +260,9 @@
                                         <exclude reference="KX1-wx-8Ku"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <segue destination="FoO-B7-f3k" kind="show" identifier="filterResults" id="T8E-dk-AhI"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

@@ -105,13 +105,20 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     //
-    // Get the new view controller using [segue destinationViewController].
-    ItemDetailViewController *itemDetail = [segue destinationViewController];
-    //
-    // Pass the selected object to the new view controller.
-    NSIndexPath *path = [self.itemTableView indexPathForCell:sender];
-    Item *selectedItem = self.itemsInView[path.row];
-    itemDetail.selectedItem = selectedItem;
+    if([segue.identifier isEqualToString:@"filterResults"]) {
+        NSLog(@"filter segue");
+        
+    }
+    else {
+        //
+        // Get the new view controller using [segue destinationViewController].
+        ItemDetailViewController *itemDetail = [segue destinationViewController];
+        //
+        // Pass the selected object to the new view controller.
+        NSIndexPath *path = [self.itemTableView indexPathForCell:sender];
+        Item *selectedItem = self.itemsInView[path.row];
+        itemDetail.selectedItem = selectedItem;
+    }
 }
 
 //
