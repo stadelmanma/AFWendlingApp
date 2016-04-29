@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Item.h"
+#import "ShoppingCart.h"
 
 @interface ItemDetailViewController : UIViewController
 
@@ -15,6 +16,14 @@
 
 @property (weak, nonatomic) IBOutlet UITextView *detailsTextView;
 
+@property (weak, nonatomic) IBOutlet UIButton *addToCartButton;
+
 @property (nonatomic, strong) Item *selectedItem;
+
+@property (nonatomic, strong) NSString *segueIdentifier;
+
+- (IBAction)addToCartTapped:(id)sender;
+
+- (void) cartButtonTapped:(UIBarButtonItem *)sender;
 
 @end

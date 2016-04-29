@@ -112,7 +112,10 @@ static NSString *catKey = @"productCategories";
     NSString *postLength = [NSString stringWithFormat:@"%d",(int)[postData length]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     //
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://127.0.0.1/~Matt_Stadelman/afw-product_search/product-search/product_search.php"]]];
+    NSString *afwUrl = @"http://afwendling.com/search_v2/product_search.php";
+    //NSString *localUrl = @"http://127.0.0.1/~Matt_Stadelman/afw-product_search/product-search/product_search.php";
+    //
+    [request setURL:[NSURL URLWithString:afwUrl]];
     [request setHTTPMethod:@"POST"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
