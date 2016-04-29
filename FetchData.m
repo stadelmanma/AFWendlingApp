@@ -26,8 +26,8 @@ static NSString *catKey = @"productCategories";
     NSMutableDictionary *sqlParams = [NSMutableDictionary new];
     NSArray *whereArray = @[
                             @[@"all",@"REGEXP",searchTerm],
-                            @[@"brand", @"REGEXP", @".*"],
-                            @[@"category", @"REGEXP", @".*"],
+                            @[@"brand", @"REGEXP", [brands componentsJoinedByString:@"|"]],
+                            @[@"category", @"REGEXP", [cats componentsJoinedByString:@"|"]],
                             @[@"stock status",@"REGEXP",@"ACTIVE|NEW ITEM|SPECIAL CUT MEAT|SPECIAL"]
                             ];
     [sqlParams setValue:@"products" forKey:@"table"];

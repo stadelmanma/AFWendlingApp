@@ -13,7 +13,6 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *displayImage;
 
-
 @property (weak, nonatomic) IBOutlet UITextView *detailsTextView;
 
 @property (nonatomic, strong) Item *selectedItem;

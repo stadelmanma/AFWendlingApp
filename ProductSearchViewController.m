@@ -26,13 +26,18 @@
     //
     //
     self.searchTerm = @".+";
+    self.brandRefine = @[@".*"];
+    self.categoryRefine = @[@".*"];
     self.startIndex = @0;
     self.maxReturn = @20;
     self.brands = @[];
     self.categories = @[];
     self.itemsInView = @[];
+    self.brandRow = 0;
+    self.categoryRow = 0;
+    self.setRefinementArrays = YES;
     //
-    NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:self.brands categoryArray:self.categories];
+    NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:self.brandRefine categoryArray:self.categoryRefine];
     [FetchData fetchProductData:sqlArray viewDelegate:self];
 }
 
@@ -53,6 +58,8 @@
 - (void)searchButtonTapped:(id)sender {
     //
     self.searchTerm = self.searchTermField.text;
+    self.brandRefine = @[@".*"];
+    self.categoryRefine = @[@".*"];
     self.startIndex = @0;
     self.brands = @[];
     self.categories = @[];
@@ -60,11 +67,24 @@
         self.searchTerm = @".+";
     }
     self.itemsInView = @[];
+    self.brandRow = 0;
+    self.categoryRow = 0;
+    self.setRefinementArrays = YES;
     //
-    NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:@[] categoryArray:@[]];
+    NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:self.brandRefine categoryArray:self.categoryRefine];
     [FetchData fetchProductData:sqlArray viewDelegate:self];
     //
     [self.searchTermField resignFirstResponder];
+}
+
+- (void)refineResults {
+    //
+    self.startIndex = @0;
+    self.itemsInView = @[];
+    //
+    NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:self.brandRefine categoryArray:self.categoryRefine];
+    [FetchData fetchProductData:sqlArray viewDelegate:self];
+    //
 }
 
 - (void) loadMoreItems {
@@ -77,8 +97,28 @@
     self.startIndex = [NSNumber numberWithInt:start];
     self.loadingData = YES; //setting this here as well because these scroll events can trigger fast
     //
-    NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:self.brands categoryArray:self.categories];
+    NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:self.brandRefine categoryArray:self.categoryRefine] ;
     [FetchData fetchProductData:sqlArray viewDelegate:self];
+}
+
+- (void)updateBrandList:(NSArray *)brands {
+    //
+    NSMutableArray *bnds = [[NSMutableArray alloc] init];
+    for (NSDictionary *entry in brands) {
+        [bnds addObject:[entry valueForKey:@"brand"]];
+    }
+    //
+    self.brands = [bnds copy];
+}
+
+- (void)updateCategoryList:(NSArray *)catagories {
+    //
+    NSMutableArray *cats = [[NSMutableArray alloc] init];
+    for (NSDictionary *entry in catagories) {
+        [cats addObject:[entry valueForKey:@"category"]];
+    }
+    //
+    self.categories = [cats copy];
 }
 
 - (void)updateCountLabel:(NSNumber *)num {
@@ -106,8 +146,17 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     //
     if([segue.identifier isEqualToString:@"filterResults"]) {
-        NSLog(@"filter segue");
-        
+        //
+        FilterItemsViewController *filterView = [segue destinationViewController];
+        filterView.prevView = self;
+        filterView.searchTerm = self.searchTerm;
+        filterView.maxReturn = self.maxReturn;
+        filterView.brandArray = self.brands;
+        filterView.categoryArray = self.categories;
+        filterView.brandRefine = self.brandRefine;
+        filterView.categoryRefine = self.categoryRefine;
+        filterView.brandRow = self.brandRow;
+        filterView.categoryRow = self.categoryRow;
     }
     else {
         //
@@ -238,9 +287,12 @@
         i = i + 1;
     }
     //
-    //
-    //[self updateBrandList:brands];
-    //[self updateCategoryList:categories];
+    // only parsing refinement arrays when the search button is tapped
+    if (self.setRefinementArrays == YES) {
+        [self updateBrandList:brands];
+        [self updateCategoryList:categories];
+        self.setRefinementArrays = NO;
+    }
     [self updateCountLabel:countArray[0][@"COUNT(*)"]];
     [self updateResultsTable:itemArray];
 }
