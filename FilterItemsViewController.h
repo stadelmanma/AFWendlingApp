@@ -10,7 +10,7 @@
 #import "ProductSearchViewController.h"
 
 
-@interface FilterItemsViewController : UIViewController <UIPickerViewDataSource>
+@interface FilterItemsViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (nonatomic, strong) NSString *searchTerm;
 
@@ -20,12 +20,18 @@
 
 @property (nonatomic, strong) NSArray *categoryArray;
 
-@property (nonatomic, strong) NSString *selectedBrand;
+@property (nonatomic, strong) NSArray *brandRefine;
 
-@property (nonatomic, strong) NSString *selectedCategory;
+@property (nonatomic, strong) NSArray *categoryRefine;
+
+@property (nonatomic, weak) UIViewController *prevView;
 
 @property (weak, nonatomic) IBOutlet UIPickerView *brandPickerView;
 
 @property (weak, nonatomic) IBOutlet UIPickerView *categoryPickerView;
+
+@property int brandRow;
+
+@property int categoryRow;
 
 @end

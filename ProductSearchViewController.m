@@ -33,6 +33,8 @@
     self.brands = @[];
     self.categories = @[];
     self.itemsInView = @[];
+    self.brandRow = 0;
+    self.categoryRow = 0;
     self.setRefinementArrays = YES;
     //
     NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:self.brandRefine categoryArray:self.categoryRefine];
@@ -65,12 +67,24 @@
         self.searchTerm = @".+";
     }
     self.itemsInView = @[];
+    self.brandRow = 0;
+    self.categoryRow = 0;
     self.setRefinementArrays = YES;
     //
     NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:self.brandRefine categoryArray:self.categoryRefine];
     [FetchData fetchProductData:sqlArray viewDelegate:self];
     //
     [self.searchTermField resignFirstResponder];
+}
+
+- (void)refineResults {
+    //
+    self.startIndex = @0;
+    self.itemsInView = @[];
+    //
+    NSArray *sqlArray = [FetchData buildSqlArray:self.searchTerm startIndex:self.startIndex maxReturn:self.maxReturn brandArray:self.brandRefine categoryArray:self.categoryRefine];
+    [FetchData fetchProductData:sqlArray viewDelegate:self];
+    //
 }
 
 - (void) loadMoreItems {
@@ -118,7 +132,6 @@
 
 - (void)updateResultsTable:(NSMutableArray *)itemArray {
     //
-    NSLog(@"%@",self.itemsInView);
     self.itemsInView = [self.itemsInView arrayByAddingObjectsFromArray:itemArray];
     [self.itemTableView reloadData];
     self.loadingData = NO;
@@ -135,10 +148,15 @@
     if([segue.identifier isEqualToString:@"filterResults"]) {
         //
         FilterItemsViewController *filterView = [segue destinationViewController];
+        filterView.prevView = self;
         filterView.searchTerm = self.searchTerm;
         filterView.maxReturn = self.maxReturn;
         filterView.brandArray = self.brands;
         filterView.categoryArray = self.categories;
+        filterView.brandRefine = self.brandRefine;
+        filterView.categoryRefine = self.categoryRefine;
+        filterView.brandRow = self.brandRow;
+        filterView.categoryRow = self.categoryRow;
     }
     else {
         //
@@ -225,28 +243,6 @@
         [self loadMoreItems];
     }
 }
-
-//
-//
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    //
-    if([pickerView isEqual: self.brandPickerView]){
-        // return the appropriate number of components, for instance
-        NSString *selectedBrand = self.brands[row];
-        if ([self.selectedBrand isEqualToString:@"All"]) {
-            self.selectedBrand = @".*";
-        }
-    }
-    
-    if([pickerView isEqual: self.categoryPickerView]){
-        // return the appropriate number of components, for instance
-        self.selectedCategory = self.categoryArray[row];
-        if ([self.selectedCategory isEqualToString:@"All"]) {
-            self.selectedCategory = @".*";
-        }
-    }
-}
-
 
 //
 #pragma mark NSURLConnection Delegate Methods

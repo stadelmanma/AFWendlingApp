@@ -24,8 +24,6 @@ static NSString *catKey = @"productCategories";
             categoryArray:(NSArray *)cats {
     //
     NSMutableDictionary *sqlParams = [NSMutableDictionary new];
-    NSLog(@"brands %@",brands);
-    NSLog(@"cats %@",cats);
     NSArray *whereArray = @[
                             @[@"all",@"REGEXP",searchTerm],
                             @[@"brand", @"REGEXP", [brands componentsJoinedByString:@"|"]],
@@ -38,7 +36,6 @@ static NSString *catKey = @"productCategories";
     [sqlParams setValue:@[start,max] forKey:@"limit"];
     //
     NSString *dataSql = [FetchData buildSqlStatement:sqlParams];
-    NSLog(@"%@",dataSql);
     [sqlParams setValue:@"COUNT(*)" forKey:@"cols"];
     [sqlParams removeObjectForKey:@"limit"];
     NSString *countSql = [FetchData buildSqlStatement:sqlParams];

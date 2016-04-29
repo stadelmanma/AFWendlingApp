@@ -42,6 +42,10 @@
 
 @property (nonatomic, strong) NSMutableData *responseData;
 
+@property int brandRow;
+
+@property int categoryRow;
+
 @property bool loadingData;
 
 @property bool setRefinementArrays;
