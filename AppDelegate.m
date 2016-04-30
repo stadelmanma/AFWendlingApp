@@ -19,6 +19,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [ShoppingCart loadCart];
+    [self cycleTheGlobalMailComposer];
     return YES;
 }
 
@@ -46,4 +47,10 @@
     [ShoppingCart saveCart];
 }
 
+-(void)cycleTheGlobalMailComposer
+{
+    // we are cycling the damned GlobalMailComposer... due to horrible iOS issue
+    self.globalMailComposer = nil;
+    self.globalMailComposer = [[MFMailComposeViewController alloc] init];
+}
 @end

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1712" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="han-Jh-V9s">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -97,16 +98,16 @@
                                 <exclude reference="Q3y-ks-KrV"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="Cc4-gV-NLh"/>
+                                <exclude reference="LNc-a7-yTF"/>
+                                <exclude reference="mbd-Wp-RkL"/>
+                                <exclude reference="ckM-Kp-mK7"/>
                                 <exclude reference="fxj-dV-V3b"/>
                                 <exclude reference="nEP-xK-fJC"/>
                                 <exclude reference="Qzl-Gz-W7w"/>
                                 <exclude reference="TRR-t4-qMj"/>
                                 <exclude reference="V0Y-nw-j6U"/>
                                 <exclude reference="tYJ-KX-MOT"/>
-                                <exclude reference="Cc4-gV-NLh"/>
-                                <exclude reference="LNc-a7-yTF"/>
-                                <exclude reference="mbd-Wp-RkL"/>
-                                <exclude reference="ckM-Kp-mK7"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -116,16 +117,16 @@
                                 <include reference="Q3y-ks-KrV"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="Cc4-gV-NLh"/>
+                                <include reference="LNc-a7-yTF"/>
+                                <include reference="mbd-Wp-RkL"/>
+                                <include reference="ckM-Kp-mK7"/>
                                 <include reference="fxj-dV-V3b"/>
                                 <include reference="nEP-xK-fJC"/>
                                 <include reference="Qzl-Gz-W7w"/>
                                 <include reference="TRR-t4-qMj"/>
                                 <include reference="V0Y-nw-j6U"/>
                                 <include reference="tYJ-KX-MOT"/>
-                                <include reference="Cc4-gV-NLh"/>
-                                <include reference="LNc-a7-yTF"/>
-                                <include reference="mbd-Wp-RkL"/>
-                                <include reference="ckM-Kp-mK7"/>
                             </mask>
                         </variation>
                     </view>
@@ -138,7 +139,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xB1-zY-hvY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4272" y="142"/>
+            <point key="canvasLocation" x="4164" y="46"/>
+        </scene>
+        <!--EmailSalesRepView-->
+        <scene sceneID="vpb-Ll-Hub">
+            <objects>
+                <viewController id="GCj-n0-1Db" userLabel="EmailSalesRepView" customClass="EmailSalesRepViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nc5-o7-hiw"/>
+                        <viewControllerLayoutGuide type="bottom" id="Nw0-WN-xaQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4hN-S4-jGm">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Email Sales Rep" image="email_image" id="x58-ou-Jta"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lee-rU-c3r" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2637" y="802"/>
         </scene>
         <!--FilterItems-->
         <scene sceneID="05A-z7-4S9">
@@ -247,13 +266,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QKc-gn-MUI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3358.5" y="773"/>
+            <point key="canvasLocation" x="3378" y="786"/>
         </scene>
         <!--ShoppingCartTableView-->
         <scene sceneID="BYG-cF-BHK">
             <objects>
                 <tableViewController id="Tyu-eP-Twx" userLabel="ShoppingCartTableView" customClass="ShoppingCartTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3pH-2a-Ymr">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -298,7 +318,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rQj-aN-ivt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4272" y="-923"/>
+            <point key="canvasLocation" x="4164" y="-843"/>
         </scene>
         <!--ProductSearchView-->
         <scene sceneID="D5X-TN-wv9">
@@ -461,6 +481,7 @@
                                 <exclude reference="vvn-jC-tX2"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="e3J-FQ-qkf"/>
                                 <exclude reference="6YW-uR-y3u"/>
                                 <exclude reference="Hd9-Ui-RQY"/>
                                 <exclude reference="cyC-OU-h8B"/>
@@ -472,7 +493,6 @@
                                 <exclude reference="Ddq-Jd-CZ9"/>
                                 <exclude reference="Qbh-WE-7g9"/>
                                 <exclude reference="SCu-pF-e88"/>
-                                <exclude reference="e3J-FQ-qkf"/>
                                 <exclude reference="R3J-t2-afE"/>
                                 <exclude reference="VgD-vr-HAr"/>
                                 <exclude reference="gDP-AO-X60"/>
@@ -488,6 +508,7 @@
                                 <include reference="vvn-jC-tX2"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="e3J-FQ-qkf"/>
                                 <exclude reference="6YW-uR-y3u"/>
                                 <exclude reference="CWZ-Lj-s2l"/>
                                 <exclude reference="Hd9-Ui-RQY"/>
@@ -507,7 +528,6 @@
                                 <exclude reference="axM-Jt-8wz"/>
                                 <exclude reference="s7t-vX-BB4"/>
                                 <exclude reference="yTr-Fu-Aeb"/>
-                                <include reference="e3J-FQ-qkf"/>
                                 <include reference="R3J-t2-afE"/>
                                 <include reference="VgD-vr-HAr"/>
                                 <exclude reference="cvd-6K-7Fe"/>
@@ -535,7 +555,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ifq-Cd-Lhc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3372" y="56"/>
+            <point key="canvasLocation" x="3378" y="46"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="uZI-tT-jMo">
@@ -568,6 +588,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="XFa-gM-0ne" kind="relationship" relationship="viewControllers" id="jys-tO-eK4"/>
+                        <segue destination="GCj-n0-1Db" kind="relationship" relationship="viewControllers" id="JY4-Ap-9Cl"/>
                         <segue destination="vqO-32-eiP" kind="relationship" relationship="viewControllers" id="1sX-1z-d1b"/>
                     </connections>
                 </tabBarController>
@@ -652,15 +673,16 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M91-Tv-n0z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2520" y="786"/>
+            <point key="canvasLocation" x="1911" y="802"/>
         </scene>
     </scenes>
     <resources>
+        <image name="email_image" width="30" height="30"/>
         <image name="search_image" width="30" height="30"/>
         <image name="www_image" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Jbv-0g-ZND"/>
-        <segue reference="4wk-9e-NCn"/>
+        <segue reference="QYR-yn-pht"/>
+        <segue reference="oM5-HX-1JB"/>
     </inferredMetricsTieBreakers>
 </document>
