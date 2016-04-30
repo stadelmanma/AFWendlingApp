@@ -52,6 +52,8 @@
 
 - (IBAction)searchButtonTapped:(id)sender;
 
+- (void) cartButtonTapped:(UIBarButtonItem *)sender;
+
 - (void) dismissKeyboard;
 
 - (void) loadMoreItems;

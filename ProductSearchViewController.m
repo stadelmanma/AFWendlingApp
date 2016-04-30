@@ -24,6 +24,8 @@
     
     [self.view addGestureRecognizer:tap];
     //
+    UIBarButtonItem *cartButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"shopping_cart"] style:UIBarButtonItemStylePlain target:self action:@selector(cartButtonTapped:)];
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = cartButton;
     //
     self.searchTerm = @".+";
     self.brandRefine = @[@".*"];
@@ -51,8 +53,12 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)dismissKeyboard {
+- (void)dismissKeyboard {
     [self.searchTermField resignFirstResponder];
+}
+
+- (void)cartButtonTapped:(UIBarButtonItem *)sender {
+    [self performSegueWithIdentifier:@"goToCart" sender:nil];
 }
 
 - (void)searchButtonTapped:(id)sender {
@@ -145,7 +151,7 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     //
-    if([segue.identifier isEqualToString:@"filterResults"]) {
+    if ([segue.identifier isEqualToString:@"filterResults"]) {
         //
         FilterItemsViewController *filterView = [segue destinationViewController];
         filterView.prevView = self;
@@ -158,6 +164,10 @@
         filterView.brandRow = self.brandRow;
         filterView.categoryRow = self.categoryRow;
     }
+    else if ([segue.identifier isEqualToString:@"goToCart"]) {
+        //
+        
+    }
     else {
         //
         // Get the new view controller using [segue destinationViewController].
@@ -167,6 +177,7 @@
         NSIndexPath *path = [self.itemTableView indexPathForCell:sender];
         Item *selectedItem = self.itemsInView[path.row];
         itemDetail.selectedItem = selectedItem;
+        itemDetail.segueIdentifier = segue.identifier;
     }
 }
 
