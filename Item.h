@@ -27,4 +27,6 @@
 
 -(NSString *) itemDetail;
 
+- (void) asyncGetImage;
+
 @end

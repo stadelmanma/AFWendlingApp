@@ -28,8 +28,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     //
-    ShoppingCart *cart = [ShoppingCart getInstance];
-    self.cartItems = [cart getCart];
+    self.cartItems = [ShoppingCart getCart];
     [self.cartTableView reloadData];
 }
 
@@ -75,10 +74,9 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        ShoppingCart *cart = [ShoppingCart getInstance];
         Item *item = self.cartItems[indexPath.row];
-        [cart removeItem:item];
-        self.cartItems = [cart getCart];
+        [ShoppingCart removeItem:item];
+        self.cartItems = [ShoppingCart getCart];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
 }

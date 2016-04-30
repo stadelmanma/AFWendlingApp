@@ -15,10 +15,16 @@
 
 + (ShoppingCart *)getInstance;
 
-- (void) addItem:(Item *)item;
++ (NSArray *) getCart;
 
-- (void) removeItem:(Item *)item;
++ (void) saveCart;
 
-- (NSArray *) getCart;
++ (void) loadCart;
+
++ (void) addItem:(Item *)item;
+
++ (void) removeItem:(Item *)item;
+
+
 
 @end

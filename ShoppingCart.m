@@ -10,7 +10,7 @@
 
 @implementation ShoppingCart
 
-@synthesize cartItems;
+static NSString *storageKey = @"AFW-USER-SHOPPING-CART";
 //
 static ShoppingCart *instance =nil;
 +(ShoppingCart *)getInstance
@@ -27,19 +27,42 @@ static ShoppingCart *instance =nil;
     return instance;
 }
 
-- (void)addItem:(Item *)item {
++ (NSArray *)getCart {
     //
-    [self.cartItems addObject:item];
+    ShoppingCart *cart = [ShoppingCart getInstance];
+    return [cart.cartItems copy];
 }
 
-- (void)removeItem:(Item *)item {
++ (void)saveCart {
     //
-    [self.cartItems removeObject:item];
+    NSMutableArray *dataArray = [[NSMutableArray alloc] init];
+    NSArray *cartItems = [ShoppingCart getCart];
+    for (Item *item in cartItems) {
+        [dataArray addObject:item.itemData];
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:dataArray forKey:storageKey];
 }
 
-- (NSArray *)getCart {
++ (void)loadCart {
     //
-    return [self.cartItems copy];
+    NSArray *cartData = [[NSUserDefaults standardUserDefaults] valueForKey:storageKey];
+    for (NSDictionary *itemData in cartData) {
+        Item *item = [[Item alloc] initWithDict:itemData arrayIndex:-1];
+        [item asyncGetImage];
+        [ShoppingCart addItem:item];
+    }
+}
+
++ (void)addItem:(Item *)item {
+    //
+    ShoppingCart *cart = [ShoppingCart getInstance];
+    [cart.cartItems addObject:item];
+}
+
++ (void)removeItem:(Item *)item {
+    //
+    ShoppingCart *cart = [ShoppingCart getInstance];
+    [cart.cartItems removeObject:item];
 }
 
 @end

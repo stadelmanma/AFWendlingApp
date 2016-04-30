@@ -32,8 +32,8 @@
     self.detailsTextView.text = [self.selectedItem itemDetail];
     //
     // checking if item is already in cart
-    ShoppingCart *cart = [ShoppingCart getInstance];
-    if ([cart.cartItems containsObject:self.selectedItem]) {
+    NSArray *cartItems = [ShoppingCart getCart];
+    if ([cartItems containsObject:self.selectedItem]) {
         //
         // changing button
         [self.addToCartButton setTitle:@"Remove From Cart" forState:UIControlStateNormal];
@@ -49,16 +49,15 @@
 
 - (IBAction)addToCartTapped:(id)sender {
     //
-    ShoppingCart *cart= [ShoppingCart getInstance];
     if (self.addToCartButton.tag == 100) {
-        [cart removeItem:self.selectedItem];
+        [ShoppingCart removeItem:self.selectedItem];
         //
         // changing button
         [self.addToCartButton setTitle:@"Add To Cart" forState:UIControlStateNormal];
         self.addToCartButton.tag = 0;
     }
     else {
-        [cart addItem:self.selectedItem];
+        [ShoppingCart addItem:self.selectedItem];
         //
         // changing button
         [self.addToCartButton setTitle:@"Remove From Cart" forState:UIControlStateNormal];

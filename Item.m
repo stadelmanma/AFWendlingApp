@@ -46,6 +46,17 @@
     return self;
 }
 
+- (void)asyncGetImage {
+    NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithURL:self.imageUrl completionHandler:^(NSData *imageData, NSURLResponse *response, NSError *error) {
+        //
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+        if (httpResponse.statusCode == 200) {
+            self.image = [UIImage imageWithData:imageData];
+        }
+    }];
+    [task resume];
+}
+
 - (NSString *)description {
     //
     return [NSString stringWithFormat:@"Item Number: %@ \n%@ \nBrand: %@\nCategory: %@",
